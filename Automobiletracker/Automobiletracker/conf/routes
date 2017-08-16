@@ -1,0 +1,16 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET         /                                                controllers.AutoMobileMaintenanceTracker.index
+GET         /add-task                                        controllers.AutoMobileMaintenanceTracker.addTaskForm
+POST         /add-task                                        controllers.AutoMobileMaintenanceTracker.add
+GET         /edit-task/:id                                        controllers.AutoMobileMaintenanceTracker.editTaskForm(id : Long)
+GET         /remove-task/:id                                        controllers.AutoMobileMaintenanceTracker.remove(id : Long)
+POST         /update-task                                        controllers.AutoMobileMaintenanceTracker.update()
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                                    controllers.Assets.versioned(path="/public", file: Asset)
+
+GET         /public/*file                                    controllers.Assets.at(path="/public", file)
+
+#GET         /*path/                                          controllers.IndexController.untrail(path: String)

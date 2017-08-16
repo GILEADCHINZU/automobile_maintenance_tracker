@@ -1,0 +1,88 @@
+@import org.apache.commons.lang3.StringUtils
+@(modelMap : java.util.Map[String, Object])
+@import pojos.Task
+@import fields._
+@taskForm = @{modelMap.get("taskForm").asInstanceOf[Form[Task]]}
+@vehicleTypes = @{modelMap.get("vehicleTypes").asInstanceOf[Map[String, String]]}
+@maintenanceTypes = @{modelMap.get("maintenanceTypes").asInstanceOf[Map[String, String]]}
+
+@url = @{
+
+    if(StringUtils.isNotEmpty(taskForm("id").value())){
+        routes.AutoMobileMaintenanceTracker.update()
+    }else{
+        routes.AutoMobileMaintenanceTracker.add
+    }
+}
+
+@message = @{
+
+    if(StringUtils.isNotEmpty(taskForm("id").value())){
+       displayMessage("Update Automobile Maintenance Information")
+    }else{
+        displayMessage("Add Automobile Maintenance Information")
+    }
+}
+
+@displayMessage(message : String) = {
+    <h3>@message</h3>
+}
+
+<html>
+
+    <head>
+        <link href="@StaticAssets.getUrl("css/bootstrap.min.css")" rel="stylesheet">
+        <link href="@StaticAssets.getUrl("css/animate.css")" rel="stylesheet">
+        <link href="@StaticAssets.getUrl("css/custom.css")" rel="stylesheet">
+        <title>Auto Mobile Maintenance Tracker</title>
+    </head>
+
+    <body style="margin: 50px">
+        <p>
+            @message
+        </p>
+
+        <h3>Vehicle Information</h3><br/>
+        <p class="pull-right">
+            <a class="btn btn-default btn-sm" href="@routes.AutoMobileMaintenanceTracker.index()">Go back to index</a>
+        </p>
+        <br/>
+        <form action="@url" method="POST">
+
+
+            <div class="form-group">
+                <label  class="control-label">Make</label>
+                <input class="form-control" type="text" name="make" value="@taskForm("make").value()" placeholder="Make" required>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Model</label>
+                <input class="form-control" type="text" name="model" value="@taskForm("model").value()" placeholder="Model" required>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Year</label>
+                <input class="form-control" type="text" name="year" value="@taskForm("year").value()" placeholder="Year" required>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Odometer</label>
+                <input class="form-control" type="text" name="odometer" value="@taskForm("odometer").value()" placeholder="Odometer" required>
+            </div>
+
+            @f_select(
+                taskForm("vehicleType"),
+                "Vehicle Type", vehicleTypes
+            )
+
+            @f_select(
+                taskForm("maintenanceType"),
+                "Maintenance Type", maintenanceTypes
+            )
+
+            <input  type="hidden" name="id" value="@taskForm("id").value()">
+            <input class="btn btn-success" type="submit" value="submit">
+        </form>
+    </body>
+
+</html>

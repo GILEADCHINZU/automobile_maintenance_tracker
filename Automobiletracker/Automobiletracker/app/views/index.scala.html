@@ -1,0 +1,55 @@
+@import pojos.Task
+@(modelMap : Map[String, Object])
+@taskList = @{modelMap.get("taskList").asInstanceOf[List[Task]]}
+
+<html>
+    <head>
+        <link href="@StaticAssets.getUrl("css/bootstrap.min.css")" rel="stylesheet">
+        <link href="@StaticAssets.getUrl("css/animate.css")" rel="stylesheet">
+        <link href="@StaticAssets.getUrl("css/custom.css")" rel="stylesheet">
+        <title>Auto Mobile Maintenance Tracker</title>
+    </head>
+
+    <body style="margin: 50px">
+
+
+        <h3>Auto Mobile Maintenance Tracker</h3>
+        <p>
+            <a class="btn btn-success" href="@routes.AutoMobileMaintenanceTracker.addTaskForm()">Add Task</a>
+        </p>
+
+
+        <table class="table table-striped" border="1">
+            <thead>
+                <tr>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Odometer</th>
+                    <th>Vehicle Type</th>
+                    <th>Maintenance Type</th>
+                    <th>Year</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for(task <- taskList){
+                    <tr>
+                        <td>@task.make</td>
+                        <td>@task.model</td>
+                        <td>@task.odometer</td>
+                        <td>@task.vehicleType.representation</td>
+                        <td>@task.maintenanceType.representation</td>
+                        <td>@task.year</td>
+                        <td>
+                            <a class="btn btn-primary" href="@routes.AutoMobileMaintenanceTracker.editTaskForm(task.id)">Edit</a>
+                            <a class="btn btn-danger" href="@routes.AutoMobileMaintenanceTracker.remove(task.id)">Remove</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </body>
+
+</html>
